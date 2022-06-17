@@ -1,10 +1,8 @@
 package com.correctin.demo.api;
 
 import com.correctin.demo.constant.ApiEndpoints;
-import com.correctin.demo.dto.CreateCheckedPostRequest;
 import com.correctin.demo.dto.CreatePostRequest;
 import com.correctin.demo.dto.PostUpdateRequest;
-import com.correctin.demo.entity.CheckedPost;
 import com.correctin.demo.entity.Post;
 import com.correctin.demo.exception.BadRequestException;
 import com.correctin.demo.service.PostService;
