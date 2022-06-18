@@ -98,7 +98,6 @@ public class UserController {
         return ResponseEntity.ok(responseDto);
     }
 
-    //Security ile eklendi
     @GetMapping("/info")
     public ResponseEntity<UserResponseDto> getUserDetails() {
         User user = this.userService.getUserDetails();

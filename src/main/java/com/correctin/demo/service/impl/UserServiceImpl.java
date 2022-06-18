@@ -101,6 +101,12 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.save(user);
     }
 
+    public User getUserByEmail(String email) {
+        return this.userRepository.findByEmail(email).orElseThrow(() -> {
+            throw new NotFoundException("User not found by given by email: " + email);
+        });
+    }
+
     @Override
     public User getUserDetails() {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -21,4 +21,6 @@ public interface UserService {
 
     // return authenticated user
     User getUserDetails();
+
+    User getUserByEmail(String email);
 }

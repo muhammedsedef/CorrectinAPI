@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -50,7 +51,12 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
             authManager.authenticate(authInputToken);
             String token = jwtUtil.generateToken(loginRequest.getEmail());
-            return ResponseEntity.ok(Collections.singletonMap("jwt-token", token));
+
+            User user = this.userService.getUserByEmail(loginRequest.getEmail());
+            Map<String,Object> response = new HashMap<>();
+            response.put("jwt-token", token);
+            response.put("user", user);
+            return ResponseEntity.ok(response);
         }catch(AuthenticationException e) {
             throw new BadCredentialsException("Wrong email or password!");
         }
