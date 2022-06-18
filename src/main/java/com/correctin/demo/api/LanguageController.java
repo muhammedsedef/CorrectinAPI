@@ -8,12 +8,10 @@ import com.correctin.demo.entity.Post;
 import com.correctin.demo.service.LanguageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiEndpoints.LANGUAGE_API_BASE_URL)
@@ -25,6 +23,11 @@ public class LanguageController {
     @PostMapping()
     public ResponseEntity<Language> save(@Valid @RequestBody CreateLanguageRequest createLanguageRequest) {
         return ResponseEntity.ok(this.languageService.save(createLanguageRequest));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Language>> getAllLanguage() {
+        return ResponseEntity.ok(this.languageService.getAllLanguage());
     }
 
 }

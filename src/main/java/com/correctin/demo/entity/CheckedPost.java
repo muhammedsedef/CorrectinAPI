@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "checked_posts")
@@ -26,6 +27,10 @@ public class CheckedPost extends BaseEntity{
     @NotNull
     @Min(3)
     private String postBody;
+
+    @Column(name = "comment")
+    @Size(min = 3, max = 10000)
+    private String comment;
 
     @OneToOne()
     @JoinColumn(name = "old_post_id", unique = true)

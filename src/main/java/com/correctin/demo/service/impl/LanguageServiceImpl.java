@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LanguageServiceImpl implements LanguageService {
@@ -20,5 +22,10 @@ public class LanguageServiceImpl implements LanguageService {
     public Language save(CreateLanguageRequest createLanguageRequest) {
         Language language = modelMapper.map(createLanguageRequest, Language.class);
         return this.languageRepository.save(language);
+    }
+
+    @Override
+    public List<Language> getAllLanguage() {
+        return this.languageRepository.findAll();
     }
 }

@@ -15,4 +15,7 @@ public class CreateCheckedPostRequest {
     @NotNull
     @Size(min=3)
     private String postBody;
+
+    @Size(min = 3, max = 10000)
+    private String comment;
 }

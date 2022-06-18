@@ -39,6 +39,7 @@ public class CheckedPostServiceImpl implements CheckedPostService {
         checkedPost.setOldPost(oldPost);
         checkedPost.setCreatedBy(activeUser.getFirstName() + " " + activeUser.getLastName());
         checkedPost.setPostBody(createCheckedPostRequest.getPostBody());
+        checkedPost.setComment(createCheckedPostRequest.getComment());
         checkedPost.setUser(activeUser);
 
         return this.checkedPostRepository.save(checkedPost);
