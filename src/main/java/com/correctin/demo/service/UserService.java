@@ -1,10 +1,13 @@
 package com.correctin.demo.service;
 
+import com.correctin.demo.dto.ChangePasswordRequest;
 import com.correctin.demo.dto.CreateUserRequest;
 import com.correctin.demo.dto.UserUpdateRequest;
 import com.correctin.demo.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface UserService {
     User save(CreateUserRequest createUserRequest);
@@ -13,7 +16,7 @@ public interface UserService {
 
     Page<User> getAll(Pageable pageable);
 
-    User getByFirstName(Boolean status, String firstName);
+    Page<User> findByFullName(Boolean status, String search, Pageable pageable);
 
     Boolean deleteUser(Long id);
 
@@ -23,4 +26,6 @@ public interface UserService {
     User getUserDetails();
 
     User getUserByEmail(String email);
+
+    Boolean changePassword(ChangePasswordRequest changePasswordRequest);
 }

@@ -17,10 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -72,14 +69,30 @@ public class UserController {
     }
 
     @GetMapping()
-    public ResponseEntity<UserResponseDto> getByFirstName(
-            @RequestParam("firstName") String firstName,
-            @RequestParam(defaultValue = "true", required = false) Boolean status
+    public ResponseEntity<Map<String, Object>> findByFullName(
+            @RequestParam("s") String search,
+            @RequestParam(defaultValue = "true", required = false) Boolean status,
+            @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
     ){
-        User user = userService.getByFirstName(status, firstName);
-        if(user == null)
-            throw new NotFoundException("User not found by given first name : " + firstName);
-        return ResponseEntity.ok(modelMapper.map(user, UserResponseDto.class));
+        Pageable pageable = PageRequest.of(page,size, Sort.by(sortBy).ascending());
+        Page<User> users = userService.findByFullName(status, search, pageable);
+        if(users == null)
+            throw new NotFoundException("User not found by given searching criteria : " + search);
+
+        Map<String, Object> response = new HashMap<>();
+
+        ArrayList<UserResponseDto> userList = new ArrayList<>();
+        users.getContent().forEach(user -> {
+            userList.add(modelMapper.map(user, UserResponseDto.class));
+        });
+        response.put("users", userList);
+        response.put("currentPage", users.getNumber());
+        response.put("totalItems", users.getTotalElements());
+        response.put("totalPages", users.getTotalPages());
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")

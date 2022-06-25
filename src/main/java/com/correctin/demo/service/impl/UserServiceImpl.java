@@ -1,9 +1,12 @@
 package com.correctin.demo.service.impl;
 
+import com.correctin.demo.dto.ChangePasswordRequest;
 import com.correctin.demo.dto.CreateUserRequest;
 import com.correctin.demo.dto.UserUpdateRequest;
 import com.correctin.demo.entity.Language;
 import com.correctin.demo.entity.User;
+import com.correctin.demo.exception.AccessDeniedException;
+import com.correctin.demo.exception.BadCredentialsException;
 import com.correctin.demo.exception.NotFoundException;
 import com.correctin.demo.repository.LanguageRepository;
 import com.correctin.demo.repository.UserRepository;
@@ -17,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -63,8 +67,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByFirstName(Boolean status, String firstName) {
-        return this.userRepository.findByStatusAndFirstName(status, firstName);
+    public Page<User> findByFullName(Boolean status, String search, Pageable pageable) {
+        return this.userRepository.findByStatusAndFullNameContaining(status, search, pageable);
     }
 
     @Override
@@ -103,6 +107,19 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findByEmail(email).orElseThrow(() -> {
             throw new NotFoundException("User not found by given by email: " + email);
         });
+    }
+
+    @Override
+    public Boolean changePassword(ChangePasswordRequest changePasswordRequest) {
+        User user = this.getUserByEmail(changePasswordRequest.getEmail());
+        User activeUser = this.getUserDetails();
+        if(user != activeUser)
+            throw new AccessDeniedException("You cannot access here");
+        if(!bCryptPasswordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword()))
+            throw new BadCredentialsException("Old Password is incorrect!");
+        user.setPassword(bCryptPasswordEncoder.encode(changePasswordRequest.getNewPassword()));
+        this.userRepository.save(user);
+        return true;
     }
 
     @Override

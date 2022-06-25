@@ -1,6 +1,7 @@
 package com.correctin.demo.api;
 
 import com.correctin.demo.constant.ApiEndpoints;
+import com.correctin.demo.dto.ChangePasswordRequest;
 import com.correctin.demo.dto.CreateUserRequest;
 import com.correctin.demo.dto.LoginRequest;
 import com.correctin.demo.dto.UserResponseDto;
@@ -14,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -66,5 +64,10 @@ public class AuthController {
     public ResponseEntity<UserResponseDto> register(@Valid @RequestBody CreateUserRequest createUserRequest) {
         User user = this.userService.save(createUserRequest);
         return ResponseEntity.ok(modelMapper.map(user, UserResponseDto.class));
+    }
+
+    @PatchMapping("/change-password")
+    public ResponseEntity<Boolean> changePassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+        return ResponseEntity.ok(this.userService.changePassword(changePasswordRequest));
     }
 }
