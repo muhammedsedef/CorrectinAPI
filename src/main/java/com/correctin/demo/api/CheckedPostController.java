@@ -1,12 +1,13 @@
 package com.correctin.demo.api;
 
 import com.correctin.demo.constant.ApiEndpoints;
-import com.correctin.demo.dto.CreateCheckedPostRequest;
+import com.correctin.demo.dto.*;
 import com.correctin.demo.entity.CheckedPost;
 import com.correctin.demo.entity.Post;
 import com.correctin.demo.exception.BadRequestException;
 import com.correctin.demo.service.CheckedPostService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,11 +25,13 @@ import java.util.Map;
 @RequestMapping(value = ApiEndpoints.CHECKED_POST_API_BASE_URL)
 @RequiredArgsConstructor
 public class CheckedPostController {
+
     private final CheckedPostService checkedPostService;
+    private final ModelMapper modelMapper;
 
     @PostMapping()
-    public ResponseEntity<CheckedPost> saveCheckedPost(@Valid @RequestBody CreateCheckedPostRequest createCheckedPostRequest) {
-        return ResponseEntity.ok(this.checkedPostService.save(createCheckedPostRequest));
+    public ResponseEntity<CheckedPostResponse> saveCheckedPost(@Valid @RequestBody CreateCheckedPostRequest createCheckedPostRequest) {
+        return ResponseEntity.ok(modelMapper.map(this.checkedPostService.save(createCheckedPostRequest), CheckedPostResponse.class));
     }
 
     @PutMapping("/{id}")
@@ -38,32 +41,23 @@ public class CheckedPostController {
         return ResponseEntity.ok("Successfully deleted post");
     }
 
-//    @GetMapping("")
-//    ResponseEntity<Map<String, Object>> getAll(
-//            @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
-//            @RequestParam(required = false) Long nativeLanguageId,
-//            @RequestParam(required = false) Long foreignLanguageId,
-//            @RequestParam(required = false) Long userId,
-//            @RequestParam(required = false, defaultValue = "true") Boolean status,
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "5") int size
-//    ){
-//        Pageable pageable = PageRequest.of(page,size, Sort.by(sortBy).ascending());
-//        Page checkedPosts = this.checkedPostService.getAll(pageable, status);
-//
-//
-//        Map<String, Object> response = new HashMap<>();
-//
-//        ArrayList<CheckedPost> checkedPostList = new ArrayList<>();
-//        checkedPosts.getContent().forEach(post -> {
-//            checkedPostList.add((CheckedPost) post);
-//            //postList.add(modelMapper.map(post, UserResponseDto.class));
-//        });
-//        response.put("checkedPosts", checkedPostList);
-//        response.put("currentPage", checkedPosts.getNumber());
-//        response.put("totalItems", checkedPosts.getTotalElements());
-//        response.put("totalPages", checkedPosts.getTotalPages());
-//
-//        return ResponseEntity.ok(response);
-//    }
+    @GetMapping("/all")
+    public ResponseEntity<Map<String, Object>> getAll(
+            @ModelAttribute CheckedPostFilterParam allParams
+    ){
+
+        Page checkedPosts = this.checkedPostService.getAll(allParams);
+        Map<String, Object> response = new HashMap<>();
+
+        ArrayList<CheckedPostResponse> postList = new ArrayList<>();
+        checkedPosts.getContent().forEach(post -> {
+            postList.add(modelMapper.map(post, CheckedPostResponse.class));
+        });
+        response.put("checkedPosts", postList);
+        response.put("currentPage", checkedPosts.getNumber());
+        response.put("totalItems", checkedPosts.getTotalElements());
+        response.put("totalPages", checkedPosts.getTotalPages());
+
+        return ResponseEntity.ok(response);
+    }
 }

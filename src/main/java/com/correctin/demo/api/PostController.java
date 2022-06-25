@@ -1,16 +1,12 @@
 package com.correctin.demo.api;
 
 import com.correctin.demo.constant.ApiEndpoints;
-import com.correctin.demo.dto.CreatePostRequest;
-import com.correctin.demo.dto.PostUpdateRequest;
-import com.correctin.demo.entity.Post;
+import com.correctin.demo.dto.*;
 import com.correctin.demo.exception.BadRequestException;
 import com.correctin.demo.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,36 +21,33 @@ import java.util.Map;
 public class PostController {
 
     private final PostService postService;
+    private final ModelMapper modelMapper;
 
     @PostMapping()
-    public ResponseEntity<Post> save(@Valid @RequestBody CreatePostRequest createPostRequest) {
-        return ResponseEntity.ok(this.postService.save(createPostRequest));
+    public ResponseEntity<PostResponse> save(@Valid @RequestBody CreatePostRequest createPostRequest) {
+        return ResponseEntity.ok(modelMapper.map(this.postService.save(createPostRequest), PostResponse.class));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(
+    public ResponseEntity<PostResponse> getPostById(
             @PathVariable Long id,
             @RequestParam(required = false, defaultValue = "true") Boolean status
     ){
-        return ResponseEntity.ok(this.postService.getPostById(true, id));
+        return ResponseEntity.ok(modelMapper.map(this.postService.getPostById(true, id), PostResponse.class));
     }
 
     @GetMapping("/all")
-    ResponseEntity<Map<String, Object>> getAll(
-            @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
-            @RequestParam(required = false, defaultValue = "true") Boolean status,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+    public ResponseEntity<Map<String, Object>> getAll(
+            @ModelAttribute PostFilterParam allParams
     ){
-        Pageable pageable = PageRequest.of(page,size, Sort.by(sortBy).ascending());
-        Page posts = this.postService.getAll(pageable, status);
 
+        Page posts = this.postService.getAll(allParams);
         Map<String, Object> response = new HashMap<>();
 
-        ArrayList<Post> postList = new ArrayList<>();
+        ArrayList<PostResponse> postList = new ArrayList<>();
         posts.getContent().forEach(post -> {
-            postList.add((Post) post);
-            //postList.add(modelMapper.map(post, UserResponseDto.class));
+            postList.add(modelMapper.map(post, PostResponse.class));
+            //postList.add((Post) post);
         });
         response.put("posts", postList);
         response.put("currentPage", posts.getNumber());
@@ -65,8 +58,8 @@ public class PostController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable Long id, @Valid @RequestBody PostUpdateRequest postUpdateRequest) {
-        return ResponseEntity.ok(this.postService.updatePost(id, postUpdateRequest));
+    public ResponseEntity<PostResponse> updatePost(@PathVariable Long id, @Valid @RequestBody PostUpdateRequest postUpdateRequest) {
+        return ResponseEntity.ok(modelMapper.map(this.postService.updatePost(id, postUpdateRequest), PostResponse.class));
     }
 
     @PutMapping("/{id}")

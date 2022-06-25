@@ -7,6 +7,7 @@ import com.correctin.demo.entity.User;
 import com.correctin.demo.exception.NotFoundException;
 import com.correctin.demo.repository.LanguageRepository;
 import com.correctin.demo.repository.UserRepository;
+import com.correctin.demo.service.PostService;
 import com.correctin.demo.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 
@@ -33,21 +36,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User save(CreateUserRequest createUserRequest){
 
-        Long nativeLanguageId = createUserRequest.getNativeLanguage();
-        Language nativeLanguage = languageRepository.findById(nativeLanguageId)
-                .orElseThrow(() -> {
-                    return new NotFoundException("Native language not found by given id: " + nativeLanguageId);
-                });
-        Long foreignLanguageId = createUserRequest.getForeignLanguage();
-        Language foreignLanguage = languageRepository.findById(foreignLanguageId)
-                .orElseThrow(() -> {
-                    return new NotFoundException("Foreign language not found by given id: " + foreignLanguageId);
-                });
-//        User savedUser = new User();
-//        savedUser.setNativeLanguage(nativeLanguage);
-//        savedUser.setForeignLanguage(foreignLanguage);
+        Language nativeLanguage = getLanguage(createUserRequest.getNativeLanguage());
+        Language foreignLanguage = getLanguage(createUserRequest.getForeignLanguage());
+
         User user = modelMapper.map(createUserRequest, User.class);
         user.setCreatedBy(user.getFirstName() + " " + user.getLastName());
         user.setUpdatedBy(user.getFirstName() + " " + user.getLastName());
@@ -87,17 +81,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User updateUser(Long id, UserUpdateRequest userUpdateRequest) {
         User user = this.userRepository.findByStatusAndId(true, id);
+        User activeUser = this.getUserDetails();
         if(user == null)
             throw new NotFoundException("User not found by given id : " + id);
 
+        Language nativeLanguage = getLanguage(userUpdateRequest.getNativeLanguageId());
+        Language foreignLanguage = getLanguage(userUpdateRequest.getForeignLanguageId());
         user.setFirstName(userUpdateRequest.getFirstName());
         user.setLastName(userUpdateRequest.getLastName());
         user.setEmail(userUpdateRequest.getEmail());
-        user.setNativeLanguage(modelMapper.map(userUpdateRequest.getNativeLanguage(), Language.class));
-        user.setForeignLanguage(modelMapper.map(userUpdateRequest.getForeignLanguage(), Language.class));
-        user.setUpdatedBy(user.getFirstName() + " " + user.getLastName());
+        user.setNativeLanguage(nativeLanguage);
+        user.setForeignLanguage(foreignLanguage);
+        user.setUpdatedBy(activeUser.getFirstName() + " " + activeUser.getLastName());
         return this.userRepository.save(user);
     }
 
@@ -113,4 +111,11 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findByEmail(email).get();
     }
 
+    protected Language getLanguage(Long languageId) {
+        Language language = this.languageRepository.findById(languageId).
+                orElseThrow(() -> {
+            return new NotFoundException("Language not found by given id: " + languageId);
+        });
+        return language;
+    }
 }

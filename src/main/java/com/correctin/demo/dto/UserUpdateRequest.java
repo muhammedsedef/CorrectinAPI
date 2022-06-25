@@ -22,7 +22,7 @@ public class UserUpdateRequest {
     @Pattern(regexp=".+@.+\\.[a-z]+")
     private String email;
 
-    private LanguageDto nativeLanguage;
+    private Long nativeLanguageId;
 
-    private LanguageDto foreignLanguage;
+    private Long foreignLanguageId;
 }

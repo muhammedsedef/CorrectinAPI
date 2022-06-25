@@ -1,26 +1,25 @@
 package com.correctin.demo.service.impl;
 
-import com.correctin.demo.dto.CreateCheckedPostRequest;
-import com.correctin.demo.dto.CreatePostRequest;
-import com.correctin.demo.dto.PostUpdateRequest;
-import com.correctin.demo.entity.CheckedPost;
+import com.correctin.demo.dto.*;
 import com.correctin.demo.entity.Post;
 import com.correctin.demo.entity.User;
 import com.correctin.demo.exception.BadRequestException;
 import com.correctin.demo.exception.NotFoundException;
-import com.correctin.demo.exception.UniqueConstraintException;
 import com.correctin.demo.repository.CheckedPostRepository;
 import com.correctin.demo.repository.PostRepository;
 import com.correctin.demo.service.PostService;
 import com.correctin.demo.service.UserService;
+import com.correctin.demo.specifications.CheckedPostSpecification;
+import com.correctin.demo.specifications.PostSpecification;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,14 +45,32 @@ public class PostServiceImpl implements PostService {
         return this.postRepository.findByStatusAndId(status, id);
     }
 
+//    @Override
+//    @Transactional
+//    public Page<Post> getAll(Pageable pageable, Boolean status) {
+//        User activeUser = this.userService.getUserDetails();
+//        //List<Post> post = this.postRepository.findByUser(activeUser);
+//        return this.postRepository.findByStatusAndUserId(status, activeUser.getId(), pageable);
+//        //return this.postRepository.findByUserId(activeUser.getId());
+//        //return this.postRepository.findByStatusAndUserId(status,2L, pageable);
+//    }
+
     @Override
     @Transactional
-    public Page<Post> getAll(Pageable pageable, Boolean status) {
-        User activeUser = this.userService.getUserDetails();
-        //List<Post> post = this.postRepository.findByUser(activeUser);
-        return this.postRepository.findByStatusAndUserId(status, activeUser.getId(), pageable);
-        //return this.postRepository.findByUserId(activeUser.getId());
-        //return this.postRepository.findByStatusAndUserId(status,2L, pageable);
+    public Page<Post> getAll(PostFilterParam allParams){
+        int page = 0;
+        int size = 5;
+        Pageable pageable = null;
+        Specification<Post> specification = null;
+        if(allParams != null) {
+            specification = PostSpecification.getFilteredPosts(allParams);
+            page = allParams.getPage();
+            size = allParams.getSize();
+            pageable = PageRequest.of(page,size);
+            return this.postRepository.findAll(specification, pageable);
+        }
+        return this.postRepository.findByStatus(true, pageable);
+
     }
 
     @Override
