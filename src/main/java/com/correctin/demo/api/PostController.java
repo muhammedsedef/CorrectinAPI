@@ -33,7 +33,7 @@ public class PostController {
             @PathVariable Long id,
             @RequestParam(required = false, defaultValue = "true") Boolean status
     ){
-        return ResponseEntity.ok(modelMapper.map(this.postService.getPostById(true, id), PostResponse.class));
+        return ResponseEntity.ok(modelMapper.map(this.postService.getPostById(status, id), PostResponse.class));
     }
 
     @GetMapping("/all")

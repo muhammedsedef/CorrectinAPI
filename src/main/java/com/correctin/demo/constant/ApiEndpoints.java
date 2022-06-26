@@ -14,4 +14,6 @@ public class ApiEndpoints {
 
     public static final String CHECKED_POST_API_BASE_URL = POST_API_BASE_URL + "/checked-post";
 
+    public static final String FOLLOWERS_API_BASE_URL = USER_API_BASE_URL + "/follow";
+
 }

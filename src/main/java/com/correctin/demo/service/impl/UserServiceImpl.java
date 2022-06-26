@@ -3,15 +3,18 @@ package com.correctin.demo.service.impl;
 import com.correctin.demo.dto.ChangePasswordRequest;
 import com.correctin.demo.dto.CreateUserRequest;
 import com.correctin.demo.dto.UserUpdateRequest;
+import com.correctin.demo.entity.Followers;
 import com.correctin.demo.entity.Language;
 import com.correctin.demo.entity.User;
 import com.correctin.demo.exception.AccessDeniedException;
 import com.correctin.demo.exception.BadCredentialsException;
+import com.correctin.demo.exception.BadRequestException;
 import com.correctin.demo.exception.NotFoundException;
+import com.correctin.demo.repository.FollowersRepository;
 import com.correctin.demo.repository.LanguageRepository;
 import com.correctin.demo.repository.UserRepository;
-import com.correctin.demo.service.PostService;
 import com.correctin.demo.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +28,7 @@ import java.util.Optional;
 
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -32,12 +36,6 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final LanguageRepository languageRepository;
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, LanguageRepository languageRepository) {
-        this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.languageRepository = languageRepository;
-    }
 
     @Override
     @Transactional

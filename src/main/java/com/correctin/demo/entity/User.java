@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.Constraint;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -59,5 +60,12 @@ public class User extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "foreign_language_id")
     private Language foreignLanguage;
+
+    @OneToMany(mappedBy="to", fetch=FetchType.LAZY)
+    private List<Followers> followers;
+
+    @OneToMany(mappedBy="from", fetch=FetchType.LAZY)
+    private List<Followers> following;
+
 
 }

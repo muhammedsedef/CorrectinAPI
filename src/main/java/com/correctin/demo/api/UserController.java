@@ -116,6 +116,4 @@ public class UserController {
         User user = this.userService.getUserDetails();
         return ResponseEntity.ok(modelMapper.map(user, UserResponseDto.class));
     }
-
-
 }

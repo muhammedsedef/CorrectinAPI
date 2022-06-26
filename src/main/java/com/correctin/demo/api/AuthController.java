@@ -53,7 +53,7 @@ public class AuthController {
             User user = this.userService.getUserByEmail(loginRequest.getEmail());
             Map<String,Object> response = new HashMap<>();
             response.put("jwt-token", token);
-            response.put("user", user);
+            response.put("user", modelMapper.map(user,UserResponseDto.class));
             return ResponseEntity.ok(response);
         }catch(AuthenticationException e) {
             throw new BadCredentialsException("Wrong email or password!");
