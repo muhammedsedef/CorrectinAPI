@@ -34,6 +34,7 @@ public class FollowersServiceImpl implements FollowersService {
     private final ModelMapper modelMapper;
 
     @Override
+    @Transactional
     public Boolean sendFollowRequest(Long id) {
         User activeUser = this.userService.getUserDetails();
         User followingUser = this.userService.getById(true, id);
@@ -74,11 +75,23 @@ public class FollowersServiceImpl implements FollowersService {
 
     @Override
     // Withdraw follow request, id: is who want to follow you
-    public Boolean withdrawFollowRequest(Long id) {
+    // if type == following => withdraw active user's following request, id represents the person I want to follow
+    // else : reject coming to my following request, id represents the person who want to follow me
+    public Boolean withdrawFollowRequest(Long id, String type) {
         User activeUser = this.userService.getUserDetails();
-        User followingUser = this.userService.getById(true, id);
+        User rejectedUser = this.userService.getById(true, id);
 
-        Followers record = this.followersRepository.findByFromAndTo(activeUser, followingUser).orElseThrow(() -> {
+        // following request withdraw
+        if(type.equals("following")) {
+            Followers record = this.followersRepository.findByFromAndTo(activeUser, rejectedUser).orElseThrow(() -> {
+                throw new BadRequestException("There is no exist following request anymore");
+            });
+            this.followersRepository.delete(record);
+            return true;
+        }
+
+        // incoming request rejected operation
+        Followers record = this.followersRepository.findByFromAndTo(rejectedUser, activeUser).orElseThrow(() -> {
             throw new BadRequestException("There is no exist following request anymore");
         });
         this.followersRepository.delete(record);
@@ -86,9 +99,10 @@ public class FollowersServiceImpl implements FollowersService {
     }
 
     @Override
+    @Transactional
     public Page<Followers> showFollowRequest(Pageable pageable) {
         User activeUser = this.userService.getUserDetails();
-        Page<Followers> followersPage = this.followersRepository.findByStatusAndTo(true, activeUser, pageable);
+        Page<Followers> followersPage = this.followersRepository.findByIsAcceptedAndTo(false, activeUser, pageable);
         return followersPage;
 
     }

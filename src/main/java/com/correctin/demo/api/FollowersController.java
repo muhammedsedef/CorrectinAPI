@@ -39,8 +39,11 @@ public class FollowersController {
     }
 
     @PutMapping("/withdraw/{id}")
-    public ResponseEntity<Boolean> withdrawFollowRequest(@PathVariable Long id) {
-        return ResponseEntity.ok(this.followersService.withdrawFollowRequest(id));
+    public ResponseEntity<Boolean> withdrawFollowRequest(
+            @PathVariable Long id,
+            @RequestParam (defaultValue = "follower") String type
+    ) {
+        return ResponseEntity.ok(this.followersService.withdrawFollowRequest(id, type));
     }
 
     @GetMapping("/followers-requests")

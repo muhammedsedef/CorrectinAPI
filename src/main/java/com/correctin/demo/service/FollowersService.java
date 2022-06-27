@@ -15,7 +15,7 @@ public interface FollowersService {
 
     Boolean acceptFollowRequest(Long id);
 
-    Boolean withdrawFollowRequest(Long id);
+    Boolean withdrawFollowRequest(Long id, String type);
 
     // show active user's follow requests
     Page<Followers> showFollowRequest(Pageable pageable);
