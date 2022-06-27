@@ -18,4 +18,6 @@ public interface FollowersRepository extends JpaRepository<Followers, Long> {
     Page<Followers> findByFrom(User user, Pageable pageable);
 
     Page<Followers> findByTo(User user, Pageable pageable);
+
+    Page<Followers> findByStatusAndTo(Boolean status, User user, Pageable pageable);
 }

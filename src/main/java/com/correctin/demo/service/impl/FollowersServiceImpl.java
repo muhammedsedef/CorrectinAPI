@@ -1,5 +1,7 @@
 package com.correctin.demo.service.impl;
 
+import com.correctin.demo.dto.PostResponse;
+import com.correctin.demo.dto.UserResponseDto;
 import com.correctin.demo.entity.Followers;
 import com.correctin.demo.entity.Post;
 import com.correctin.demo.entity.User;
@@ -18,6 +20,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +41,7 @@ public class FollowersServiceImpl implements FollowersService {
             throw new NotFoundException("User cannot found by given id: " + id);
 
         if(this.followersRepository.findByFromAndTo(activeUser, followingUser).isPresent())
-            throw new BadRequestException("You have already follow to: " + followingUser.getFullName());
+            throw new BadRequestException("You have already send follow request to: " + followingUser.getFullName());
         try{
             Followers followers = new Followers();
             followers.setFrom(activeUser);
@@ -80,6 +83,14 @@ public class FollowersServiceImpl implements FollowersService {
         });
         this.followersRepository.delete(record);
         return true;
+    }
+
+    @Override
+    public Page<Followers> showFollowRequest(Pageable pageable) {
+        User activeUser = this.userService.getUserDetails();
+        Page<Followers> followersPage = this.followersRepository.findByStatusAndTo(true, activeUser, pageable);
+        return followersPage;
+
     }
 
 //    @Override
