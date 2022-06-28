@@ -43,9 +43,8 @@ public class DemoApplication {
 				registry.addMapping("/**")
 
 						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
-						.allowedOriginPatterns("*")
-						.allowCredentials(true)
-						.allowedOrigins("*");
+						.allowedOriginPatterns("*");
+						//.allowedOrigins("*");
 			}
 		};
 	}
