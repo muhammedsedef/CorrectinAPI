@@ -20,5 +20,7 @@ public interface FollowersService {
     // show active user's follow requests
     Page<Followers> showFollowRequest(Pageable pageable);
 
+    Map<String, Object> showFollowersAndFollowing(Long id, Pageable pageable);
+
     //Map<String, Object> getAllFollowAndFollowers(Long id, int page, int size);
 }

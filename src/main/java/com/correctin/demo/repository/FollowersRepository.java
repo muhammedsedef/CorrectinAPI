@@ -15,9 +15,9 @@ public interface FollowersRepository extends JpaRepository<Followers, Long> {
     // If a user want to follow again the same user.
     Optional<Followers> findByFromAndTo(User from, User to);
 
-    Page<Followers> findByFrom(User user, Pageable pageable);
+    Page<Followers> findByIsAcceptedAndFrom(Boolean isAccepted, User user, Pageable pageable);
 
-    Page<Followers> findByTo(User user, Pageable pageable);
+    Page<Followers> findByIsAcceptedAndTo(Boolean isAccepted, User user, Pageable pageable);
 
-    Page<Followers> findByIsAcceptedAndTo(Boolean status, User user, Pageable pageable);
+    //Page<Followers> findByIsAcceptedAndFromOrTo(Boolean status, User fromUser,User toUser, Pageable pageable);
 }

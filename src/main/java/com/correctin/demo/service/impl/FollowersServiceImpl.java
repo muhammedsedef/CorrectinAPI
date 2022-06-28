@@ -107,6 +107,41 @@ public class FollowersServiceImpl implements FollowersService {
 
     }
 
+    @Override
+    @Transactional
+    public Map<String, Object> showFollowersAndFollowing(Long id, Pageable pageable) {
+        User user = this.userService.getById(true, id);
+        Page<Followers> followersResult = this.followersRepository.findByIsAcceptedAndTo(true, user, pageable);
+
+        ArrayList<UserResponseDto> followers= new ArrayList<>();
+        Map<String, Object> response = new HashMap<>();
+
+        // To find followers
+        followersResult.getContent().forEach(follower -> {
+            followers.add(modelMapper.map(follower.getFrom(), UserResponseDto.class));
+        });
+
+        response.put("followers", followers);
+        response.put("followersCurrentPage", followersResult.getNumber());
+        response.put("followersTotalItems", followersResult.getTotalElements());
+        response.put("followersTotalPages", followersResult.getTotalPages());
+
+        Page<Followers> followingResult = this.followersRepository.findByIsAcceptedAndFrom(true, user, pageable);
+        ArrayList<UserResponseDto> followings = new ArrayList<>();
+
+        // To find following users
+        followingResult.getContent().forEach(following -> {
+            followings.add(modelMapper.map(following.getTo(), UserResponseDto.class));
+        });
+
+        response.put("followings", followings);
+        response.put("followingsCurrentPage", followingResult.getNumber());
+        response.put("followingsTotalItems", followingResult.getTotalElements());
+        response.put("followingsTotalPages", followingResult.getTotalPages());
+
+        return response;
+    }
+
 //    @Override
 //    public Map<String, Object> getAllFollowAndFollowers(Long id, int page, int size) {
 //        User activeUser = this.userService.getUserDetails();

@@ -68,6 +68,18 @@ public class FollowersController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Map<String,Object>> showFollowersAndFollowing(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @PathVariable Long id
+    ){
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt").descending());
+        Map<String, Object> result = this.followersService.showFollowersAndFollowing(id, pageable);
+        return ResponseEntity.ok(result);
+    }
+
+
 //    @GetMapping("{id}")
 //    public ResponseEntity<Followers> getAllFollowerAndFollowers(
 //            @PathVariable Long id,
