@@ -44,16 +44,23 @@ public class CheckedPostServiceImpl implements CheckedPostService {
         if(oldPost == null)
             throw new NotFoundException("Post not found by given id : " + createCheckedPostRequest.getOldPostId());
 
-        User activeUser = this.userService.getUserDetails();
-        CheckedPost checkedPost = new CheckedPost();
+        try{
+            User activeUser = this.userService.getUserDetails();
+            CheckedPost checkedPost = new CheckedPost();
 
-        checkedPost.setOldPost(oldPost);
-        checkedPost.setCreatedBy(activeUser.getFirstName() + " " + activeUser.getLastName());
-        checkedPost.setPostBody(createCheckedPostRequest.getPostBody());
-        checkedPost.setComment(createCheckedPostRequest.getComment());
-        checkedPost.setUser(activeUser);
+            checkedPost.setOldPost(oldPost);
+            checkedPost.setCreatedBy(activeUser.getFirstName() + " " + activeUser.getLastName());
+            checkedPost.setPostBody(createCheckedPostRequest.getPostBody());
+            checkedPost.setComment(createCheckedPostRequest.getComment());
+            checkedPost.setUser(activeUser);
 
-        return this.checkedPostRepository.save(checkedPost);
+            oldPost.setIsChecked(true);
+            this.postService.updateIsChecked(oldPost);
+
+            return this.checkedPostRepository.save(checkedPost);
+        }catch(Exception e) {
+            throw new BadRequestException("Error occuer while creating checked post");
+        }
     }
 
     @Override

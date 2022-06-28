@@ -30,6 +30,9 @@ public class Post extends BaseEntity{
     @NotNull
     @Size(min=3)
     private String postBody;
+
+    @Column(name = "is_checked")
+    private Boolean isChecked = false;
     
     @ManyToOne()
     @JoinColumn(name = "user_id")

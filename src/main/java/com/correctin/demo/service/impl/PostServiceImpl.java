@@ -37,6 +37,7 @@ public class PostServiceImpl implements PostService {
         //finding active user which means that user insert a new post
         User user = this.userService.getUserDetails();
         post.setUser(user);
+        post.setCreatedBy(user.getFullName());
         return this.postRepository.save(post);
     }
 
@@ -44,16 +45,6 @@ public class PostServiceImpl implements PostService {
     public Post getPostById(Boolean status, Long id) {
         return this.postRepository.findByStatusAndId(status, id);
     }
-
-//    @Override
-//    @Transactional
-//    public Page<Post> getAll(Pageable pageable, Boolean status) {
-//        User activeUser = this.userService.getUserDetails();
-//        //List<Post> post = this.postRepository.findByUser(activeUser);
-//        return this.postRepository.findByStatusAndUserId(status, activeUser.getId(), pageable);
-//        //return this.postRepository.findByUserId(activeUser.getId());
-//        //return this.postRepository.findByStatusAndUserId(status,2L, pageable);
-//    }
 
     @Override
     @Transactional
@@ -99,5 +90,9 @@ public class PostServiceImpl implements PostService {
         User activeUser = this.userService.getUserDetails();
         oldPost.setUpdatedBy(activeUser.getFirstName() + " " + activeUser.getLastName());
         return this.postRepository.save(oldPost);
+    }
+
+    public void updateIsChecked(Post post) {
+        this.postRepository.save(post);
     }
 }

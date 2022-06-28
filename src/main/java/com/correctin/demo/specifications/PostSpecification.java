@@ -16,6 +16,8 @@ public class PostSpecification {
             String sortBy = "createdAt";
             if(params.getStatus() != null)
                 predicates.add(criteriaBuilder.equal(root.get("status"), params.getStatus()));
+            if(params.getIsChecked() != null)
+                predicates.add(criteriaBuilder.equal(root.get("isChecked"), params.getIsChecked()));
             if(params.getNativeLanguageId() != null)
                 predicates.add(criteriaBuilder.equal(root.get("user").get("nativeLanguage").get("id"), params.getNativeLanguageId()));
             if(params.getForeignLanguageId() != null)

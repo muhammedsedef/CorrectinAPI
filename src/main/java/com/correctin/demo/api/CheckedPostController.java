@@ -30,7 +30,8 @@ public class CheckedPostController {
     private final ModelMapper modelMapper;
 
     @PostMapping()
-    public ResponseEntity<CheckedPostResponse> saveCheckedPost(@Valid @RequestBody CreateCheckedPostRequest createCheckedPostRequest) {
+    public ResponseEntity<CheckedPostResponse> saveCheckedPost(
+            @Valid @RequestBody CreateCheckedPostRequest createCheckedPostRequest) {
         return ResponseEntity.ok(modelMapper.map(this.checkedPostService.save(createCheckedPostRequest), CheckedPostResponse.class));
     }
 

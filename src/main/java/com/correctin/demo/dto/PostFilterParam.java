@@ -9,6 +9,7 @@ public class PostFilterParam {
     private String sortBy;
     private String orderBy;
     private Boolean status;
+    private Boolean isChecked;
     private Long userId;
     private Long nativeLanguageId;
     private Long foreignLanguageId;
