@@ -41,7 +41,10 @@ public class DemoApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedMethods("GET", "POST", "PUT", "DELETE")
+
+						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+						.allowedOriginPatterns("*")
+						.allowCredentials(true)
 						.allowedOrigins("*");
 			}
 		};
