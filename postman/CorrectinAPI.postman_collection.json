@@ -1,0 +1,936 @@
+{
+	"info": {
+		"_postman_id": "bb2ff808-1fbd-42bb-9ae3-359c461ea561",
+		"name": "CorrectinAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13066378"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Hakan\",\r\n    \"lastName\": \"Ayral\",\r\n    \"email\": \"hakan@ayral.com\",\r\n    \"password\": \"123456\",\r\n    \"nativeLanguage\" : 5,\r\n    \"foreignLanguage\" : 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{heroku_base_url}}/api/auth/register",
+							"host": [
+								"{{heroku_base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"muhammetsedef34@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{heroku_base_url}}/api/auth/login",
+							"host": [
+								"{{heroku_base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{heroku_base_url}}/api/user/2",
+							"host": [
+								"{{heroku_base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjI3MjM3NiwiaWF0IjoxNjU2MTg1OTc2LCJlbWFpbCI6Im11aGFtbWV0c2VkZWYzNEBnbWFpbC5jb20ifQ.Ud0-gFgZXK2tm29zqUbSt_NOR70-Zt2nB04sxluVCnE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Zeynep\",\r\n    \"lastName\": \"Mumcu\",\r\n    \"email\": \"zeynepmumcu@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"nativeLanguageId\" : 1,\r\n    \"foreignLanguageId\": 2 \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost_base_url}}/api/user/14",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjI4NTI3MCwiaWF0IjoxNjU2MTk4ODcwLCJlbWFpbCI6Im11aGFtbWV0c2VkZWYzNEBnbWFpbC5jb20ifQ.RssCPDLoaZUpBQlnNcIi_epnYUFMQQDJ63R_aN4-VmE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"muhammetsedef34@gmail.com\",\r\n    \"oldPassword\": \"123456\",\r\n    \"newPassword\": \"1234567\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost_base_url}}/api/auth/change-password",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find by fullName",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjI4MjIzNiwiaWF0IjoxNjU2MTk1ODM2LCJlbWFpbCI6Im11aGFtbWV0c2VkZWYzNEBnbWFpbC5jb20ifQ.Xfv5gNaaY_OjF-DGv0fw8_hsBjNj5wWNfAV4qnksHdY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{localhost_base_url}}/api/user?s=Muh",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"user"
+							],
+							"query": [
+								{
+									"key": "s",
+									"value": "Muh"
+								},
+								{
+									"key": "status",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all users with pagination",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "page",
+								"value": "1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{heroku_base_url}}/api/user/all",
+							"host": [
+								"{{heroku_base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "4",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "lastName",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user (status = false)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NDczNjA0MSwiaWF0IjoxNjU0NjQ5NjQxLCJlbWFpbCI6Im11aGFtbWV0c2VkZWYzNEBnbWFpbC5jb20ifQ.yMdoVW_OjCW8Fy3AX9Cz2irJ1TYWRD8xgi9LDYsOrsU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "page",
+								"value": "1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{heroku_base_url}}/api/user/10",
+							"host": [
+								"{{heroku_base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"10"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "4",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "lastName",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Create Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjUzODM3NSwiaWF0IjoxNjU2NDUxOTc1LCJlbWFpbCI6InpleW5lcG11bWN1QGdtYWlsLmNvbSJ9.vF94kI8Fx0NJQ22w4XS8jx4qw68qdzrNtfYKd7-e4Ds",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"postTitle\": \"Post Tittle8\",\r\n    \"postBody\": \"Postt Boddy8\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost_base_url}}/api/post",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get post by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjI3NDAzNywiaWF0IjoxNjU2MTg3NjM3LCJlbWFpbCI6Im11aGFtbWV0c2VkZWYzNEBnbWFpbC5jb20ifQ.Fm4D4kxZ6SHlnN2SesbzIHPcTkm1AtMme1R27Qqhljk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost_base_url}}/api/post/1",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all posts with pagination",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjUzOTcyNiwiaWF0IjoxNjU2NDUzMzI2LCJlbWFpbCI6InpleW5lcG11bWN1QGdtYWlsLmNvbSJ9.C3tzTEm5dHFXMVn-1cCXhYc-FjCHRbK5TR9gL0zBUJA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "page",
+								"value": "1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{localhost_base_url}}/api/post/all?page=0&size=1&sortBy=postTitle&orderBy=desc&foreignLanguageId=2&status=true&nativeLanguageId=1&userId=2&isChecked=true&isFollowing=14",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "1"
+								},
+								{
+									"key": "sortBy",
+									"value": "postTitle"
+								},
+								{
+									"key": "orderBy",
+									"value": "desc"
+								},
+								{
+									"key": "foreignLanguageId",
+									"value": "2"
+								},
+								{
+									"key": "status",
+									"value": "true"
+								},
+								{
+									"key": "nativeLanguageId",
+									"value": "1"
+								},
+								{
+									"key": "userId",
+									"value": "2"
+								},
+								{
+									"key": "isChecked",
+									"value": "true"
+								},
+								{
+									"key": "isFollowing",
+									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete post (status = false)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "page",
+								"value": "1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{heroku_base_url}}/api/user?id=8",
+							"host": [
+								"{{heroku_base_url}}"
+							],
+							"path": [
+								"api",
+								"user"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "4",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "lastName",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "8"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Language",
+			"item": [
+				{
+					"name": "Create Language",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 8,\r\n    \"languageName\": \"Romanian\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{heroku_base_url}}/api/language",
+							"host": [
+								"{{heroku_base_url}}"
+							],
+							"path": [
+								"api",
+								"language"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all language",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NTU2NDc1OSwiaWF0IjoxNjU1NDc4MzU5LCJlbWFpbCI6Im11aGFtbWV0c2VkZWYzNEBnbWFpbC5jb20ifQ.Z_iBw_5Y6O_J69xHvWLna0096XH3CKiiVys6thTHy8U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "page",
+								"value": "1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{heroku_base_url}}/api/language",
+							"host": [
+								"{{heroku_base_url}}"
+							],
+							"path": [
+								"api",
+								"language"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "4",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "lastName",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Checked Post",
+			"item": [
+				{
+					"name": "Create Checked Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjUzODM3NSwiaWF0IjoxNjU2NDUxOTc1LCJlbWFpbCI6InpleW5lcG11bWN1QGdtYWlsLmNvbSJ9.vF94kI8Fx0NJQ22w4XS8jx4qw68qdzrNtfYKd7-e4Ds",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPostId\": 7,\r\n    \"postBody\":\"Güncellenen Post Body7\",\r\n    \"comment\": \"Güncellemeye ait comment7\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost_base_url}}/api/post/checked-post",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"checked-post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all checked post with pagination",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjI3NjcyOSwiaWF0IjoxNjU2MTkwMzI5LCJlbWFpbCI6Im11aGFtbWV0c2VkZWYzNEBnbWFpbC5jb20ifQ.Oqv3waay4sl5DaajMQipFICFhpbzazc0VG6UP3lw3mg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "page",
+								"value": "1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{localhost_base_url}}/api/post/checked-post/all?page=0&size=3&sortBy=id&orderBy=desc",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"checked-post",
+								"all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								},
+								{
+									"key": "sortBy",
+									"value": "id"
+								},
+								{
+									"key": "orderBy",
+									"value": "desc"
+								},
+								{
+									"key": "foreignLanguageId",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "nativeLanguageId",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "userId",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "oldPostUserId",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "oldPostId",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "8",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete checked post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NTU2ODIxNywiaWF0IjoxNjU1NDgxODE3LCJlbWFpbCI6Im11aGFtbWV0c2VkZWYzNEBnbWFpbC5jb20ifQ.w6A34x7k4DnS7P5U8XPMYglBdjM3JYYkuM9flxGbfhE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{heroku_base_url}}/api/post/checked-post/1",
+							"host": [
+								"{{heroku_base_url}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"checked-post",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Followers",
+			"item": [
+				{
+					"name": "send follow request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjUzNzAxOCwiaWF0IjoxNjU2NDUwNjE4LCJlbWFpbCI6InpleW5lcG11bWN1QGdtYWlsLmNvbSJ9.eoCvmeiaidL1Mwi3kGWY8sgNsfeeWP6WvvkoJBSEff4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{localhost_base_url}}/api/user/follow/2",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"follow",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "accept follow request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjUzNzcyMCwiaWF0IjoxNjU2NDUxMzIwLCJlbWFpbCI6Im11aGFtbWV0c2VkZWYyMzRAZ21haWwuY29tIn0.9KScw8UNDSrPk-mUcyhC84SCgEP68KROOLGweEP5nPA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{localhost_base_url}}/api/user/follow/accept/14",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"follow",
+								"accept",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "withdraw follow/following request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjQ1Nzc2OSwiaWF0IjoxNjU2MzcxMzY5LCJlbWFpbCI6InpleW5lcG11bWN1QGdtYWlsLmNvbSJ9.4e_CBwjKILgu2m2KDah_rlJZuJlGUbHHEv7rX4avgwE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Zeynep\",\r\n    \"lastName\": \"Mumcu\",\r\n    \"email\": \"zeynepmumcu@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"nativeLanguageId\" : 1,\r\n    \"foreignLanguageId\": 2 \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost_base_url}}/api/user/follow/withdraw/9",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"follow",
+								"withdraw",
+								"9"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "following",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Follow Requests",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get Follow and Followers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJDb3JyZWN0aW4gUHJvamVjdCIsImV4cCI6MTY1NjUzNzg0MSwiaWF0IjoxNjU2NDUxNDQxLCJlbWFpbCI6InpleW5lcG11bWN1QGdtYWlsLmNvbSJ9.XDI0_lJjpONraHRn6elxm3iPqO6FcVfPGXYgUq_ZGSE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost_base_url}}/api/user/follow/14?page=0&size=5",
+							"host": [
+								"{{localhost_base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"follow",
+								"14"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
